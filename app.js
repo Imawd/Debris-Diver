@@ -15,16 +15,15 @@ document.body.appendChild(app.view);
 //camera
 const world = new PIXI.Container();
 const acceleration = 1;
-world.height = 500;
-world.width = 500;
 world.x = app.screen.width / 2;
 world.y = app.screen.height / 2;
 world.pivot.x = world.width / 2;
 world.pivot.y = world.height / 2;
 
 const earth_sprite = PIXI.Sprite.from('./Assets/Earf.png');
-earth_sprite.scale.set(1.5, 1.5);
-
+earth_sprite.scale.set(2, 2);
+world.height = earth_sprite.height;
+world.width = earth_sprite.width;
 world.addChild(earth_sprite);
 
 
@@ -57,7 +56,8 @@ function createPlayer() {
     player.fuel = 500;
     //angle
     player.angle = 0;
-
+    //score
+    player.score = 0;
     player.scale.set(0.5,0.5);
 
     world.addChild(player);
@@ -74,7 +74,7 @@ const debrisImages = [
 let debris_sprites = [];
 let debris_coords = [];
 function generateDebris() {
-    for (let i = 0; i < debrisData.length/3; i++) {
+    for (let i = 0; i < debrisData.length; i++) {
         let obj = debrisData[i];
         let x = obj["xScaled"];
         let y = obj["yScaled"];
@@ -90,6 +90,9 @@ function generateDebris() {
 
 let player = createPlayer();
 generateDebris();
+
+let scoreText = new PIXI.Text('Score:' + player.score);
+app.stage.addChild(scoreText);
 app.stage.addChild(world);
 
 let keys = {};
@@ -117,7 +120,7 @@ keysDiv = document.querySelector('#keys');
 function gameLoop() {
     //W
     if (keys["87"]) {
-       if (player.v > -1) player.v -= 0.01;
+       if (player.v > -0.5) player.v -= 0.005;
        player.play();
        player.loop = true;
     }
@@ -130,7 +133,7 @@ function gameLoop() {
 
     //S
     if (keys["83"]) {
-        if (player.v < 1) player.v += 0.01;
+        if (player.v < 0.5) player.v += 0.005;
         player.gotoAndStop(0);
     }
     
@@ -147,19 +150,23 @@ function gameLoop() {
         player.loop = false;
     }
 
-    player.x += player.v * (Math.sin(-player.rotation));
-    player.y += player.v * (Math.cos(player.rotation));
+    if (player.x + (player.v * (Math.sin(-player.rotation))) > 0 && player.x + (player.v * (Math.sin(-player.rotation))) < world.width) player.x += player.v * (Math.sin(-player.rotation));
+    else {
+        let text = new PIXI.Text("Careful there! Don't want to travel too far into the dangerous depths of the abyss!")
+        text.x = player.x + 10;
+    }
+    if (player.y + (player.v * (Math.cos(player.rotation))) >0 && player.y + (player.v * (Math.cos(player.rotation))) < world.height) player.y += player.v * (Math.cos(player.rotation));
 
-    if (world.pivot.x + world.width/2 < world.width) {
+    if (player.x + world.width/2 < world.width) {
         world.pivot.x = player.x;
     }
-    if (world.pivot.y + world.height/2 < world.height) {
+    if (player.y + world.height/2 < world.height) {
         world.pivot.y = player.y;
     }
-    if (world.pivot.x + world.width/2 < world.width) {
+    if (player.x - world.width/2 > 0) {
         world.pivot.x = player.x;
     }
-    if (world.pivot.y + world.height/2 < world.height) {
+    if (player.y - world.height/2 > 0) {
         world.pivot.y = player.y;
     }
 
@@ -172,6 +179,7 @@ function gameLoop() {
         }
 
         if (rectsIntersect(player, debris_sprites[i])) {
+
             let obj = debrisData[i];
             
             if (keys["70"]) {
@@ -211,10 +219,12 @@ function gameLoop() {
 
             }
         }
+
     }
     document.getElementById("scoreCount").innerHTML = player.score;
     document.getElementById("debrisCount").innerHTML = player.debris;
 }
+
 
 function rectsIntersect(a, b) {
     let aBox = a.getBounds();
