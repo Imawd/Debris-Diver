@@ -40,6 +40,8 @@ function createPlayer() {
     }
 
     let player = new PIXI.AnimatedSprite(playerImages);
+    player.score = 0;
+    player.debris = 0;
     player.anchor.set(0.5, 0.5);
     player.x = window.innerWidth/2;
     player.y = window.innerHeight/2;
@@ -78,8 +80,8 @@ function generateDebris() {
         let y = obj["yScaled"];
         const debris_sprite = PIXI.Sprite.from(debrisImages[i % 3]);
         debris_sprite.scale.set(0.5,0.5);
-        debris_sprite.x = x;
-        debris_sprite.y = y;
+        debris_sprite.x = 2*x - 3000;
+        debris_sprite.y = 2.5*y - 2000;
         debris_sprite.v = 0;
         debris_sprites.push(debris_sprite);
         world.addChild(debris_sprite);
@@ -89,6 +91,7 @@ function generateDebris() {
 let player = createPlayer();
 generateDebris();
 app.stage.addChild(world);
+
 let keys = {};
 let keysDiv;
 let playerSheet = {}; 
@@ -146,14 +149,71 @@ function gameLoop() {
 
     player.x += player.v * (Math.sin(-player.rotation));
     player.y += player.v * (Math.cos(player.rotation));
-    world.pivot.x = player.x;
-    world.pivot.y = player.y;
+
+    if (world.pivot.x + world.width/2 < world.width) {
+        world.pivot.x = player.x;
+    }
+    if (world.pivot.y + world.height/2 < world.height) {
+        world.pivot.y = player.y;
+    }
+    if (world.pivot.x + world.width/2 < world.width) {
+        world.pivot.x = player.x;
+    }
+    if (world.pivot.y + world.height/2 < world.height) {
+        world.pivot.y = player.y;
+    }
 
     for (let i = 0; i < debris_sprites.length; i++) {
+        if(document.getElementById("Details-Underline").innerHTML == "") {
+            document.getElementById("itemFound").style.display = "none";
+        }
+        else {
+            document.getElementById("itemFound").style.display = "block";
+        }
+
         if (rectsIntersect(player, debris_sprites[i])) {
-            if (keys["70"]) world.removeChild(debris_sprites[i]);
+            let obj = debrisData[i];
+            
+            if (keys["70"]) {
+                player.debris += 1;
+                if(obj.type == "PAYLOAD") {
+                    player.score += 10;
+                }
+                else if(obj.type == "DEBRIS") {
+                    player.score += 15;
+                }
+                else if(obj.type == "ROCKET BODY") {
+                    player.score += 25;
+                }
+
+                world.removeChild(debris_sprites[i]);
+
+                document.getElementById("name").innerHTML = "Name: " + obj.name;
+                document.getElementById("type").innerHTML = "Type: " + obj.type;
+                document.getElementById("designator").innerHTML = "Designator: " + obj.designator;
+                document.getElementById("launch").innerHTML = "Launch Date: " + obj.launch;
+                document.getElementById("motion").innerHTML = "Mean Motion: " + obj.motion;
+                document.getElementById("orbit").innerHTML = "Orbit: " + obj.orbit;
+                document.getElementById("inclination").innerHTML = "Inclination: " + obj.inclination;
+                document.getElementById("Details-Underline").innerHTML = obj.type;
+                
+                setTimeout(function () {
+                    document.getElementById("name").innerHTML = "";
+                    document.getElementById("type").innerHTML = "";
+                    document.getElementById("designator").innerHTML = "";
+                    document.getElementById("launch").innerHTML = "";
+                    document.getElementById("motion").innerHTML = "";
+                    document.getElementById("orbit").innerHTML = "";
+                    document.getElementById("inclination").innerHTML = "";
+                    document.getElementById("Details-Underline").innerHTML = "";
+                }, 10000);
+
+
+            }
         }
     }
+    document.getElementById("scoreCount").innerHTML = player.score;
+    document.getElementById("debrisCount").innerHTML = player.debris;
 }
 
 function rectsIntersect(a, b) {
@@ -162,3 +222,15 @@ function rectsIntersect(a, b) {
 
     return aBox.x + aBox.width > bBox.x && aBox.x < bBox.x + bBox.width && aBox.height + aBox.y > bBox.y && aBox.y < bBox.y + bBox.height
 }
+
+let minutes = 0;
+let seconds = 0;
+
+setInterval(function() {
+    seconds++;
+    if (seconds === 60) {
+        minutes++;
+        seconds = 0;
+    }
+    document.getElementById("timer").innerHTML = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+}, 1000);
