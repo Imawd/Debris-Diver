@@ -1,0 +1,61 @@
+.ObjectInfo-Container {
+    width: 300px;
+    height: 550px;
+
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    color: white;
+    border: solid 2px white;
+    border-radius: 20px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    padding: 20px;
+}
+
+.Object-Details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.Object-Details img {
+    width: 120px;
+    height: 120px;
+    background: black;
+    padding: 5px;
+}
+
+#Details-Underline {
+    border-bottom: solid 2px white;
+    padding-bottom: 10px;
+}
+
+.Object-Data {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    text-align: left;
+}
+
+.Object-Data p {
+    width: 100%;
+}
+
+.Close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: 0;
+    background: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
