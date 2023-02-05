@@ -1,0 +1,124 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+  }
+  
+  * {
+    margin: 0;
+  }
+  
+  html, body {
+    height: 100%;
+  }
+
+.Intro-Holder {
+    z-index: 20;
+    position: absolute;
+    left: 0;
+    padding: 20px;
+    
+    background: #111E24;
+    border-right: solid 5px #FE5139;
+    width: 500px;
+    min-height: 100vh;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2vh;
+
+    box-shadow:
+        2.8px 0px 2.2px rgba(0, 0, 0, 0.02),
+        6.7px 0px 5.3px rgba(0, 0, 0, 0.028),
+        12.5px 0px 10px rgba(0, 0, 0, 0.035),
+        22.3px 0px 17.9px rgba(0, 0, 0, 0.042),
+        41.8px 0px 33.4px rgba(0, 0, 0, 0.05),
+        100px 0px 80px rgba(0, 0, 0, 0.07);
+}
+
+.Title {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    color: white;
+    text-align: left;
+
+    padding: 20px;
+}
+
+.Title h1 {
+    font-size: 60px;
+}
+
+.HackSC {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    gap: 5px;
+    height: 20px;
+
+    font-size: 15px;
+}
+
+.HackSC img {
+    width: 110px;
+    height: 100px;
+}
+
+.Intro-Description {
+    width: 100%;
+    color: white;
+    padding: 20px;
+    padding-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    font-size: 20px;
+    padding-right: 60px;
+    line-height: 27.5px;
+    padding-bottom: 50px;
+}
+
+.Description-Border {
+    border-left: 3px solid #FE5139;
+    padding-left: 12.5px;
+}
+
+.Intro-Button {
+    width: 100%;
+    display: flex;
+    padding: 20px;
+    border-radius: 20px;
+    align-items: center;
+    justify-content: start;
+    background: black;
+    border: 1px solid #FE5139;
+}
+
+.Score-Container {
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    padding: 10px;
+    gap: 20px;
+
+    width: 150px;
+    height: 150px;
+    color: white;
+
+    text-align: left;
+    font-size: 20px;
+}
+
+.Score-Style {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    text-align: left;
+}

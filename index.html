@@ -5,14 +5,42 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pixi Tutorial</title>
-    <style>
-        * {
-            padding: 0;
-            margin: 0;
-        }
-    </style>
+    <link href="style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
+    <div class="Intro-Holder">
+        <div class='Title'>
+            <h1>Debris Diver</h1>
+            <div class='HackSC'>
+                <h2>A</h2>
+                <img src='./Images/HackSC.svg' alt="HackSC"/>
+                <h2>Project</h2>
+            </div>
+            <div>
+                <div class='Intro-Description'>
+                    <p class='Description-Border'><b>Space Debris</b>, also known as space junk or orbital debris, refers to the man-made objects, such as old satellites, rocket stages, and fragments from collisions, that orbit the Earth and pose a potential hazard to active satellites, spacecraft, and astronauts.</p>
+                    <p class='Description-Border'>These pieces of debris can travel at high speeds and can damage or completely destroy operational spacecraft, creating even more debris in the process.</p>
+                    <p class='Description-Border'>The proliferation of space debris is a growing concern for the <b>future of space exploration</b> and it is important to educate the public on the issue.</p>
+                </div>
+                <div class='Intro-Button'>
+                    <div class='Score-Container'>
+                        <div class='Score-Style'>
+                            <p><b>Score: </b></p>
+                            <p>125</p>
+                        </div>
+                        <div class='Score-Style'>
+                            <p><b>Debris: </b></p>
+                            <p>5</p>
+                        </div>
+                        <div class='Score-Style'>
+                            <p><b>Time: </b></p>
+                            <p>2:45</p>
+                        </div>
+                    </div>
+                </div>
+              </div>
+        </div>
+    </div>
     <div id = "keys"></div>
     <script src="./node_modules/pixi.js/dist/pixi.min.js"></script>
     <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
